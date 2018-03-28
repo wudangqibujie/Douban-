@@ -8,10 +8,12 @@ data = {
 "form_password": "Ljj281150",
 "login": "登录"
 }
+headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",
+           "Refer":"https://movie.douban.com/subject/1306081/"}
 proxies = {"http":"27.154.147.58:27153"}
 s = requests.Session()
-url = "https://accounts.douban.com/login?alias=1812364545&redir=https%3A%2F%2Fmovie.douban.com%2Fsubject%2F1306081%2F&source=movie&error=1008"
-r1 = s.post(url,data=data)
+# url = "https://accounts.douban.com/login?alias=1812364545&redir=https%3A%2F%2Fmovie.douban.com%2Fsubject%2F1306081%2F&source=movie&error=1008"
+# r1 = s.post(url,data=data,headers = headers)
 data=dict()
 g = open("all_movies_urls.txt",encoding="utf-8")
 f = open("DATA.txt","a",encoding="utf-8")
@@ -19,7 +21,9 @@ j = 0
 for i in g:
     j += 1
     time.sleep(1)
-    r = s.get(i.strip(),proxies=proxies)
+    print(requests.get("http://httpbin.org/ip",proxies=proxies).text)
+    r = s.get(i.strip(),proxies=proxies,headers=headers)
+    print(r.text)
     html = etree.HTML(r.text)
     name = html.xpath('//div[@id="content"]/h1/span[1]/text()')
     data["电影名字"] = name
