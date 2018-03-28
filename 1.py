@@ -2,12 +2,12 @@ import requests
 import json
 import logging
 import time
+import os
 logging.basicConfig(level=logging.INFO)
 f = open("move_result.txt","a")
 
 def get_data(url1):
     r = requests.get(url1)
-    print(r.url)
     return r.text
 def taiwan():
     f = open("Taiwan_move_result.txt","a",encoding="utf-8")
@@ -39,10 +39,22 @@ def dalu():
         except:
             break
     f.close()
+def create_urls(path):
+    g = open("all_movies_urls.txt","a")
+    f = open("Dalu_move_result.txt",encoding="utf-8")
+    for i in f:
+
+        b = eval(i.strip())
+        print(b)
+        for j in eval(i)["data"]:
+            print(j["url"])
+
+    g.close()
 
 
 if __name__ == '__main__':
-    dalu()
+    # print(os.listdir('.')[2:])
+    create_urls("as")
 
 
 
