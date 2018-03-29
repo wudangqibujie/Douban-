@@ -23,7 +23,7 @@ def movie_id_generator(path):
 def structual_data(movie_id,headers,proxies):
     data = dict()
     url = "https://api.douban.com/v2/movie/subject/{id}".format(id=movie_id)
-    r = requests.get(url,headers = headers,proxies=proxies)
+    r = requests.get(url,headers = headers,proxies=proxies,timeout = 5)
     a = json.loads(r.text)
     data["评分"] = a["rating"]["average"]
     data["评论数"] = a["reviews_count"]
@@ -64,12 +64,12 @@ if __name__ == '__main__':
     ip_list = get_tempory_ip()
     ip = random.choice(ip_list)
     while True:
+        url = red.spop("douban_urls").decode("utf-8")
         try:
             proxies = {"https":ip}
             logging.info(proxies)
             headers = {"User-Agent":random.choice(UA_Pool.user_agent_list)}
-            url = red.spop("douban_urls").decode("utf-8")
-            time.sleep(0.5)
+            # time.sleep(0.5)
             id = create_one_movie_id(url)
             data = structual_data(id,headers,proxies)
             logging.info(data)
@@ -79,12 +79,12 @@ if __name__ == '__main__':
             ip = random.choice(ip_list)
             logging.info("屌你老母又封我IP！")
             red.sadd("douban_urls",url)
-
-            if k == 10:
-                time.sleep(200)
+            if k == 5:
+                time.sleep(10)
                 ip_list = get_tempory_ip()
-                break
+                continue
             else:
+
                 continue
 
 
