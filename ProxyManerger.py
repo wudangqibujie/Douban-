@@ -22,11 +22,7 @@ def create_ip(func):
         return func(url,proxies)
     return wrapper
 
-
-
-
-if __name__ == '__main__':
-    def run1():
+def run1():
         k=0
         while True:
             u = red.spop("gude")
@@ -41,3 +37,7 @@ if __name__ == '__main__':
                 else:
                     continue
 
+
+
+if __name__ == '__main__':
+    pass
